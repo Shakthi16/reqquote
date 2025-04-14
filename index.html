@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusTech | Request a Quote</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Poppins', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#6366f1',
+                            DEFAULT: '#4f46e5',
+                            dark: '#4338ca',
+                        },
+                        secondary: {
+                            light: '#10b981',
+                            DEFAULT: '#059669',
+                            dark: '#047857',
+                        },
+                        dark: '#1e293b',
+                        light: '#f8fafc',
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -15px rgba(0, 0, 0, 0.1)',
+                        'hard': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(79,70,229,0.95) 0%, rgba(5,150,105,0.9) 100%);
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #4f46e5;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .error-border {
+            border-color: #ef4444 !important;
+        }
+        .error-icon {
+            display: none;
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ef4444;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .success-modal {
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+        .form-section {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .form-header {
+            background: linear-gradient(135deg, rgba(79,70,229,0.95) 0%, rgba(5,150,105,0.9) 100%);
+            padding: 2.5rem;
+            color: white;
+        }
+        .form-input {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+        .form-input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .file-upload {
+            border: 2px dashed #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .file-upload:hover {
+            border-color: #4f46e5;
+            background-color: #f8fafc;
+        }
+        .submit-btn {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .budget-option {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+        .budget-option:hover {
+            border-color: #4f46e5;
+        }
+        .footer-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        .service-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #4f46e5;
+        }
+        .testimonial-card {
+            border-left: 4px solid #4f46e5;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .testimonial-text {
+            position: relative;
+            padding-left: 1rem;
+        }
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            left: -0.5rem;
+            top: -0.5rem;
+            font-size: 3rem;
+            color: #e2e8f0;
+            font-family: serif;
+            line-height: 1;
+        }
+        .password-input {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-atom text-primary text-3xl mr-3"></i>
+                        <span class="text-2xl font-bold text-dark">NexusTech</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="#" class="nav-link text-dark hover:text-primary font-medium">Home</a>
+                    <a href="#" class="nav-link text-dark hover:text-primary font-medium">Services</a>
+                    <a href="#" class="nav-link text-dark hover:text-primary font-medium">Solutions</a>
+                    <a href="#" class="nav-link text-dark hover:text-primary font-medium">About</a>
+                    <a href="#" class="nav-link text-primary font-medium">Get Quote</a>
+                    <a href="#" class="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-dark transition-all shadow-sm">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-dark hover:text-primary focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary-light to-transparent opacity-20"></div>
+            <div class="absolute bottom-0 left-0 w-1/3 h-full bg-gradient-to-r from-secondary-light to-transparent opacity-20"></div>
+        </div>
+        <div class="max-w-7xl mx-auto py-24 px-6 relative z-10">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-6 leading-tight">Transform Your Vision<br>Into Digital Reality</h1>
+                <p class="text-xl opacity-90 max-w-2xl mx-auto mb-8">Get a customized quote for your next project from our team of digital transformation experts.</p>
+                <a href="#quote-form" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all shadow-lg inline-block">Get Started</a>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="py-16 bg-light">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4">Our Premium Services</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">We deliver exceptional digital solutions tailored to your business needs</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="service-card bg-white p-8">
+                    <div class="text-primary text-4xl mb-6">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Web Development</h3>
+                    <p class="text-gray-600">Custom websites and web applications built with cutting-edge technologies for optimal performance.</p>
+                </div>
+                <div class="service-card bg-white p-8">
+                    <div class="text-primary text-4xl mb-6">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Mobile Apps</h3>
+                    <p class="text-gray-600">Beautiful, intuitive mobile applications for iOS and Android platforms.</p>
+                </div>
+                <div class="service-card bg-white p-8">
+                    <div class="text-primary text-4xl mb-6">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">UI/UX Design</h3>
+                    <p class="text-gray-600">User-centered designs that enhance engagement and drive conversions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Form Section -->
+    <section id="quote-form" class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="form-section">
+                <div class="form-header">
+                    <h2 class="text-3xl font-bold mb-2">Request a Quote</h2>
+                    <p class="opacity-90">Complete this form and our team will contact you within 24 hours</p>
+                </div>
+                
+                <form id="quoteForm" class="p-8 space-y-6">
+                    <!-- Full Name -->
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Full Name <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <input type="text" id="fullName" name="fullName"
+                                class="form-input pl-10 w-full py-3"
+                                placeholder="John Doe">
+                            <i id="fullNameErrorIcon" class="fas fa-exclamation-circle error-icon"></i>
+                        </div>
+                        <p id="fullNameError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please enter your full name</p>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <input type="email" id="email" name="email"
+                                class="form-input pl-10 w-full py-3"
+                                placeholder="your@email.com">
+                            <i id="emailErrorIcon" class="fas fa-exclamation-circle error-icon"></i>
+                        </div>
+                        <p id="emailError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid email address</p>
+                    </div>
+                    
+                    <!-- Phone Number -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <input type="tel" id="phone" name="phone"
+                                class="form-input pl-10 w-full py-3"
+                                placeholder="+1 234 567 8900" pattern="^\+[\d\s\-]+$">
+                            <i id="phoneErrorIcon" class="fas fa-exclamation-circle error-icon"></i>
+                        </div>
+                        <p id="phoneError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid phone number with country code (e.g., +1 234 567 8900)</p>
+                    </div>
+                    
+                    <!-- Company Name -->
+                    <div>
+                        <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <input type="text" id="company" name="company"
+                                class="form-input pl-10 w-full py-3"
+                                placeholder="Your Company Inc.">
+                        </div>
+                    </div>
+                    
+                    <!-- Service/Product Interested In -->
+                    <div>
+                        <label for="interest" class="block text-sm font-medium text-gray-700 mb-2">Service/Product Interested In <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <select id="interest" name="interest"
+                                class="form-input w-full py-3 pr-10 bg-white">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="web-development">Web Development</option>
+                                <option value="mobile-app">Mobile App Development</option>
+                                <option value="ui-ux">UI/UX Design</option>
+                                <option value="digital-marketing">Digital Marketing</option>
+                                <option value="consulting">Business Consulting</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <i id="interestErrorIcon" class="fas fa-exclamation-circle error-icon" style="right: 2.5rem;"></i>
+                        </div>
+                        <p id="interestError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please select an option</p>
+                    </div>
+                    
+                    <!-- Project Description -->
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Project Description / Requirements <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <textarea id="description" name="description" rows="5" maxlength="1000"
+                                class="form-input w-full py-3"
+                                placeholder="Describe your project in detail..."></textarea>
+                            <i id="descriptionErrorIcon" class="fas fa-exclamation-circle error-icon" style="top: 1.5rem;"></i>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                            <p id="descriptionError" class="text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please provide a project description</p>
+                            <span id="charCount" class="text-xs text-gray-500">0/1000 characters</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Budget Range -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Budget Range <span class="text-red-500">*</span></label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div>
+                                <input type="radio" id="budget1" name="budget" value="1k-5k" class="hidden peer">
+                                <label for="budget1" class="budget-option block p-3 text-center rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary">$1k-$5k</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="budget2" name="budget" value="5k-10k" class="hidden peer">
+                                <label for="budget2" class="budget-option block p-3 text-center rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary">$5k-$10k</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="budget3" name="budget" value="10k-25k" class="hidden peer">
+                                <label for="budget3" class="budget-option block p-3 text-center rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary">$10k-$25k</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="budget4" name="budget" value="25k+" class="hidden peer">
+                                <label for="budget4" class="budget-option block p-3 text-center rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary">$25k+</label>
+                            </div>
+                        </div>
+                        <p id="budgetError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please select a budget range</p>
+                    </div>
+                    
+                    <!-- Preferred Response Time -->
+                    <div>
+                        <label for="responseTime" class="block text-sm font-medium text-gray-700 mb-2">Preferred Response Time</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <input type="datetime-local" id="responseTime" name="responseTime"
+                                class="form-input pl-10 w-full py-3">
+                        </div>
+                    </div>
+                    
+                    <!-- File Upload -->
+                    <div>
+                        <label for="fileUpload" class="block text-sm font-medium text-gray-700 mb-2">Upload Documents (Optional)</label>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="fileUpload" class="file-upload flex flex-col items-center justify-center w-full h-32 rounded-lg cursor-pointer">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500">PDF, DOC, JPG (MAX. 5MB)</p>
+                                </div>
+                                <input id="fileUpload" name="fileUpload" type="file" class="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg">
+                            </label>
+                        </div>
+                        <p id="fileError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> File must be PDF, DOC or JPG and under 5MB</p>
+                        <div id="filePreview" class="mt-3 hidden">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-md border border-gray-200">
+                                <i class="fas fa-file text-gray-500 mr-3"></i>
+                                <span id="fileName" class="text-sm flex-grow truncate"></span>
+                                <button type="button" onclick="removeFile()" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Copy Checkbox -->
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="sendCopy" name="sendCopy" type="checkbox"
+                                class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="sendCopy" class="font-medium text-gray-700">Send me a copy of this request to my email</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Consent Checkbox -->
+                    <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5 mt-0.5">
+                                <input id="consent" name="consent" type="checkbox" required
+                                    class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="consent" class="font-medium text-gray-700">I agree to the <a href="#" id="termsLink" class="text-primary hover:underline">Terms & Conditions</a></label>
+                                <p id="consentError" class="mt-1 text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> You must agree to the terms and conditions</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="pt-4">
+                        <button type="submit" id="submitBtn"
+                            class="submit-btn w-full text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center">
+                            <span id="submitText">Submit Request</span>
+                            <i id="submitSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-dark mb-4">Client Success Stories</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">What professionals say about working with us</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="testimonial-card">
+                    <div class="testimonial-text mb-4 text-gray-700">
+                        Everything I need to run and market my business is in one central place. Even my tax reporting: "You can't find another site out there that does it all for you."
+                    </div>
+                    <div class="font-bold text-dark">KAT PARK</div>
+                    <div class="text-sm text-gray-500">Salom Gisele</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text mb-4 text-gray-700">
+                        I am so grateful for your scheduling system. I never overlook myself and I always have time between clients due to the option to set up your timeframe by the customer. Last but not least, I have time for myself to be a mother. Again thank you so much for NexusTech. I LOVE IT!
+                    </div>
+                    <div class="font-bold text-dark">KAT PARK</div>
+                    <div class="text-sm text-gray-500">Salom Gisele</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text mb-4 text-gray-700">
+                        Everything I need to run and market my business is in one central place. Even my tax reporting: "You can't find another site out there that does it all for you."
+                    </div>
+                    <div class="font-bold text-dark">AKISHA BOYD</div>
+                    <div class="text-sm text-gray-500">Xtreme Lashes Stylist</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text mb-4 text-gray-700">
+                        You have been the most helpful site I have ever been on. You're awesome :)
+                    </div>
+                    <div class="font-bold text-dark">MEGAN DUCHI</div>
+                    <div class="text-sm text-gray-500">Creative Director</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Email Copy Modal -->
+    <div id="emailCopyModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Send Copy to Email</h3>
+                <button onclick="closeModal('emailCopyModal')" class="text-gray-500 hover:text-gray-700 text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <label for="copyEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address <span class="text-red-500">*</span></label>
+                    <input type="email" id="copyEmail" class="form-input w-full py-3" placeholder="your@email.com">
+                    <p id="copyEmailError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid email address</p>
+                </div>
+                <div class="password-input">
+                    <label for="copyPassword" class="block text-sm font-medium text-gray-700 mb-2">Password <span class="text-red-500">*</span></label>
+                    <input type="password" id="copyPassword" class="form-input w-full py-3 pr-10" placeholder="Enter your password">
+                    <span class="toggle-password" onclick="togglePasswordVisibility('copyPassword')">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                    <p id="copyPasswordError" class="mt-2 text-sm text-red-600 hidden"><i class="fas fa-exclamation-circle mr-1"></i> Please enter your password</p>
+                </div>
+                <div class="pt-2">
+                    <button onclick="sendEmailCopy()" class="w-full bg-primary text-white font-semibold py-3 px-4 rounded-lg hover:bg-primary-dark transition-all">
+                        Send Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Terms & Conditions</h3>
+                <button onclick="closeModal('termsModal')" class="text-gray-500 hover:text-gray-700 text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="text-gray-700 space-y-6">
+                <div>
+                    <h4 class="font-bold text-lg mb-2">1. Introduction</h4>
+                    <p>These terms and conditions govern your use of our quote request service. By submitting this form, you accept these terms in full.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-2">2. Privacy Policy</h4>
+                    <p>We collect personal information including your name, email address, and phone number to process your quote request. This information will be used solely for the purpose of responding to your inquiry.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-2">3. Data Protection</h4>
+                    <p>Your data will be stored securely and will not be shared with third parties without your explicit consent, except as required by law.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-2">4. Communications</h4>
+                    <p>By submitting this form, you agree to receive communications from us regarding your quote request. You may opt out of future communications at any time.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-2">5. Accuracy of Information</h4>
+                    <p>You warrant that all information provided is accurate and complete. We reserve the right to verify any information provided.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-2">6. Limitation of Liability</h4>
+                    <p>We shall not be liable for any indirect, special, or consequential damages arising from your use of this service.</p>
+                </div>
+                
+                <div class="pt-6">
+                    <button onclick="closeModal('termsModal')" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-all">
+                        I Understand
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Form Submitted Successfully!</h3>
+            <p id="successMessage" class="text-gray-700 mb-8 text-lg">Thank you for your request. We will get back to you within 24 hours.</p>
+            <button onclick="closeModal('successModal')" class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-primary-dark transition-all">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-atom text-3xl mr-3"></i>
+                        <span class="text-2xl font-bold">NexusTech</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Innovative digital solutions for modern businesses.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Web Development</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Mobile App Development</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">UI/UX Design</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Digital Marketing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Business Consulting</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Our Team</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Contact</h3>
+                    <address class="text-gray-400 not-italic">
+                        <p class="mb-3"><i class="fas fa-map-marker-alt mr-2"></i> 123 Tech Street, San Francisco, CA</p>
+                        <p class="mb-3"><i class="fas fa-phone mr-2"></i> +1 (555) 123-4567</p>
+<p class="mb-3"><i class="fas fa-envelope mr-2"></i> info@nexustech.com</p>
+<p><i class="fas fa-clock mr-2"></i> Mon-Fri: 9AM - 6PM</p>
+</address>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400 text-sm">
+<p>© 2023 NexusTech. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+</div>
+</div>
+</footer>
+	
+	<script>
+    // Modal functions
+    function showTermsModal(e) {
+        e.preventDefault();
+        document.getElementById('termsModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = document.querySelector(`#${inputId} + .toggle-password i`);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    // File upload handling
+    const fileUpload = document.getElementById('fileUpload');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    let uploadedFile = null;
+    
+    fileUpload.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+            const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            
+            if (!validTypes.includes(file.type)) {
+                document.getElementById('fileError').classList.remove('hidden');
+                this.value = '';
+                return;
+            }
+            
+            if (file.size > maxSize) {
+                document.getElementById('fileError').classList.remove('hidden');
+                this.value = '';
+                return;
+            }
+            
+            document.getElementById('fileError').classList.add('hidden');
+            fileName.textContent = file.name;
+            filePreview.classList.remove('hidden');
+            uploadedFile = file;
+        }
+    });
+    
+    function removeFile() {
+        fileUpload.value = '';
+        filePreview.classList.add('hidden');
+        document.getElementById('fileError').classList.add('hidden');
+        uploadedFile = null;
+    }
+
+    // Form validation and submission
+    const form = document.getElementById('quoteForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+    
+    // Real-time validation functions with error icons
+    function validateFullName() {
+        const fullName = document.getElementById('fullName');
+        const errorElement = document.getElementById('fullNameError');
+        const errorIcon = document.getElementById('fullNameErrorIcon');
+        
+        if (!fullName.value.trim()) {
+            fullName.classList.add('error-border');
+            errorElement.classList.remove('hidden');
+            errorIcon.style.display = 'block';
+            return false;
+        } else {
+            fullName.classList.remove('error-border');
+            errorElement.classList.add('hidden');
+            errorIcon.style.display = 'none';
+            return true;
+        }
+    }
+    
+    function validateEmail() {
+        const email = document.getElementById('email');
+        const errorElement = document.getElementById('emailError');
+        const errorIcon = document.getElementById('emailErrorIcon');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email.value || !emailRegex.test(email.value)) {
+            email.classList.add('error-border');
+            errorElement.classList.remove('hidden');
+            errorIcon.style.display = 'block';
+            return false;
+        } else {
+            email.classList.remove('error-border');
+            errorElement.classList.add('hidden');
+            errorIcon.style.display = 'none';
+            return true;
+        }
+    }
+    
+    function validatePhone() {
+        const phone = document.getElementById('phone');
+        const errorElement = document.getElementById('phoneError');
+        const errorIcon = document.getElementById('phoneErrorIcon');
+        const phoneRegex = /^\+[\d\s\-]+$/;
+        
+        if (!phone.value || !phoneRegex.test(phone.value)) {
+            phone.classList.add('error-border');
+            errorElement.classList.remove('hidden');
+            errorIcon.style.display = 'block';
+            return false;
+        } else {
+            phone.classList.remove('error-border');
+            errorElement.classList.add('hidden');
+            errorIcon.style.display = 'none';
+            return true;
+        }
+    }
+    
+    function validateInterest() {
+        const interest = document.getElementById('interest');
+        const errorElement = document.getElementById('interestError');
+        const errorIcon = document.getElementById('interestErrorIcon');
+        
+        if (!interest.value) {
+            interest.classList.add('error-border');
+            errorElement.classList.remove('hidden');
+            errorIcon.style.display = 'block';
+            return false;
+        } else {
+            interest.classList.remove('error-border');
+            errorElement.classList.add('hidden');
+            errorIcon.style.display = 'none';
+            return true;
+        }
+    }
+    
+    function validateDescription() {
+        const description = document.getElementById('description');
+        const errorElement = document.getElementById('descriptionError');
+        const errorIcon = document.getElementById('descriptionErrorIcon');
+        
+        if (!description.value.trim()) {
+            description.classList.add('error-border');
+            errorElement.classList.remove('hidden');
+            errorIcon.style.display = 'block';
+            return false;
+        } else {
+            description.classList.remove('error-border');
+            errorElement.classList.add('hidden');
+            errorIcon.style.display = 'none';
+            return true;
+        }
+    }
+    
+    function validateBudget() {
+        const budgetSelected = document.querySelector('input[name="budget"]:checked');
+        const errorElement = document.getElementById('budgetError');
+        
+        if (!budgetSelected) {
+            errorElement.classList.remove('hidden');
+            return false;
+        } else {
+            errorElement.classList.add('hidden');
+            return true;
+        }
+    }
+    
+    function validateConsent() {
+        const consent = document.getElementById('consent');
+        const errorElement = document.getElementById('consentError');
+        
+        if (!consent.checked) {
+            errorElement.classList.remove('hidden');
+            return false;
+        } else {
+            errorElement.classList.add('hidden');
+            return true;
+        }
+    }
+
+    // Character count for description
+    const description = document.getElementById('description');
+    const charCount = document.getElementById('charCount');
+    
+    description.addEventListener('input', function() {
+        const count = this.value.length;
+        charCount.textContent = `${count}/1000 characters`;
+        
+        if (count > 900) {
+            charCount.classList.add('warning');
+        } else {
+            charCount.classList.remove('warning');
+        }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validate all fields
+        const isFullNameValid = validateFullName();
+        const isEmailValid = validateEmail();
+        const isPhoneValid = validatePhone();
+        const isInterestValid = validateInterest();
+        const isDescriptionValid = validateDescription();
+        const isBudgetValid = validateBudget();
+        const isConsentValid = validateConsent();
+        
+        const isValid = isFullNameValid && isEmailValid && isPhoneValid && 
+                        isInterestValid && isDescriptionValid && 
+                        isBudgetValid && isConsentValid;
+        
+        if (isValid) {
+            // Show loading state
+            submitText.textContent = 'Processing...';
+            submitSpinner.classList.remove('hidden');
+            submitBtn.disabled = true;
+            
+            // Prepare form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                company: document.getElementById('company').value,
+                interest: document.getElementById('interest').value,
+                description: document.getElementById('description').value,
+                budget: document.querySelector('input[name="budget"]:checked').value,
+                responseTime: document.getElementById('responseTime').value,
+                sendCopy: document.getElementById('sendCopy').checked,
+                file: uploadedFile ? uploadedFile.name : null
+            };
+            
+            try {
+                // In a real implementation, you would send this data to your backend
+                console.log('Form data:', formData);
+                
+                // Prepare success message
+                let successMessage = 'Thank you for your request! We will get back to you within 24 hours.';
+                
+                if (formData.sendCopy) {
+                    // Show email copy modal
+                    document.getElementById('emailCopyModal').style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    // Show success modal directly
+                    document.getElementById('successMessage').textContent = successMessage;
+                    document.getElementById('successModal').style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+                
+                // Reset form
+                form.reset();
+                if (uploadedFile) removeFile();
+                charCount.textContent = '0/1000 characters';
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('There was an error submitting your form. Please try again.');
+            } finally {
+                submitText.textContent = 'Submit Request';
+                submitSpinner.classList.add('hidden');
+                submitBtn.disabled = false;
+            }
+        } else {
+            // Scroll to the first error
+            const firstError = document.querySelector('.error-border, [id$="Error"]:not(.hidden)');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    });
+
+    // Email copy submission
+    function sendEmailCopy() {
+        const email = document.getElementById('copyEmail');
+        const password = document.getElementById('copyPassword');
+        let isValid = true;
+        
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value || !emailRegex.test(email.value)) {
+            document.getElementById('copyEmailError').classList.remove('hidden');
+            email.classList.add('error-border');
+            isValid = false;
+        } else {
+            document.getElementById('copyEmailError').classList.add('hidden');
+            email.classList.remove('error-border');
+        }
+        
+        // Validate password
+        if (!password.value) {
+            document.getElementById('copyPasswordError').classList.remove('hidden');
+            password.classList.add('error-border');
+            isValid = false;
+        } else {
+            document.getElementById('copyPasswordError').classList.add('hidden');
+            password.classList.remove('error-border');
+        }
+        
+        if (isValid) {
+            // In a real implementation, you would send the email copy here
+            console.log('Sending copy to:', email.value);
+            
+            // Show success message
+            document.getElementById('successMessage').textContent = 'Thank you for your request. A copy has been sent to your email.';
+            document.getElementById('successModal').style.display = 'flex';
+            closeModal('emailCopyModal');
+        }
+    }
+
+    // Event listeners for real-time validation
+    document.getElementById('fullName').addEventListener('blur', validateFullName);
+    document.getElementById('email').addEventListener('blur', validateEmail);
+    document.getElementById('phone').addEventListener('blur', validatePhone);
+    document.getElementById('interest').addEventListener('change', validateInterest);
+    document.getElementById('description').addEventListener('blur', validateDescription);
+    document.querySelectorAll('input[name="budget"]').forEach(radio => {
+        radio.addEventListener('change', validateBudget);
+    });
+    document.getElementById('consent').addEventListener('change', validateConsent);
+    
+    // Fix for terms link
+    document.getElementById('termsLink').addEventListener('click', showTermsModal);
+</script>
+	
+	</body>
+</html>
